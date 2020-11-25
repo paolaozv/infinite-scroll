@@ -5,8 +5,8 @@ const listDefault = [1, 2, 3, 4];
 
 const App = () => {
   const [list, setList] = useState([]);
-  const [page, setPage] = useState(1);
-  // const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [loading, setLoading] = useState(false);
   const loader = useRef(null);
   
   useEffect(() => {
@@ -34,30 +34,16 @@ const App = () => {
   };
 
   useEffect(() => {
-    function getList() {
-      // if (!loading) {
-      //   // setLoading(true);
-      //   setTimeout(() => {
-      //     setList(lastList => lastList.concat(listDefault));
-      //     window.history.pushState({}, '', page);
-      //     // setLoading(false);
-      //   }, 2000);
-      // }
+    if (!loading && page > list.length/4) {
+      console.log(page);
+      setLoading(true);
+      window.history.pushState({}, '', page);
       setTimeout(() => {
         setList(lastList => lastList.concat(listDefault));
-        window.history.pushState({}, '', page);
-        // setLoading(false);
+        setLoading(false);
       }, 2000);
     }
-
-    getList();
-    
-  }, [page]);
-
-  useEffect(() => {
-    const location = window.location;
-    console.log(location);
-  }, []);
+  }, [loading, page, list]);
 
   return (
     <div className='container'>
@@ -69,7 +55,7 @@ const App = () => {
         ))}
       </div>
       <div ref={loader}></div>
-      {/* {loading && <div className='loader'>Loading...</div>} */}
+      {loading && <div className='loader'>Loading...</div>}
     </div>
   );
 };
