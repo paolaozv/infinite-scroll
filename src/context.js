@@ -12,13 +12,6 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchData = async () => {
-    dispatch({ type: 'LOADING' });
-    const response = await fetch(`https://api.github.com/users?since=${state.page}&per_page=4`);
-    const users = await response.json();
-    dispatch({ type: 'DISPLAY_USERS', payload: users });
-  };
-
   const nextPage = () => {
     dispatch({ type: 'NEXT_PAGE' });
   };
