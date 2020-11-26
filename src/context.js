@@ -16,7 +16,7 @@ const AppProvider = ({ children }) => {
     dispatch({ type: 'LOADING' });
     const response = await fetch(`https://api.github.com/users?since=${state.page}&per_page=4`);
     const users = await response.json();
-    dispatch({ type: 'DISPLAY_USERS', payload: [...state.users, ...users] });
+    dispatch({ type: 'DISPLAY_USERS', payload: users });
   };
 
   const nextPage = () => {
@@ -24,6 +24,12 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    const fetchData = async () => {
+      dispatch({ type: 'LOADING' });
+      const response = await fetch(`https://api.github.com/users?since=${state.page}&per_page=4`);
+      const users = await response.json();
+      dispatch({ type: 'DISPLAY_USERS', payload: users });
+    };
     fetchData();
   }, [state.page]);
 
