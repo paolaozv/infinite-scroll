@@ -9,7 +9,6 @@ const AppWithApi = () => {
   const handleObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting && users.length > 0 && !loading) {
-      console.log('isIntersecting');
       nextPage();
     }
   }, [nextPage, users, loading]);
