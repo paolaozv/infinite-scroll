@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 
 const listDefault = [1, 2, 3, 4];
 
-const App = () => {
+const AppUseCallback = () => {
   const [list, setList] = useState([]);
   const [page, setPage] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -33,7 +33,7 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
+  const getList = useCallback(() => {
     if (!loading && page > list.length/4) {
       setLoading(true);
       window.history.pushState({}, '', page);
@@ -42,7 +42,11 @@ const App = () => {
         setLoading(false);
       }, 2000);
     }
-  }, [loading, page, list]);
+  }, [page, list, loading]);
+
+  useEffect(() => {
+    getList();
+  }, [page, getList]);
 
   return (
     <div className='container'>
@@ -59,4 +63,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AppUseCallback;
